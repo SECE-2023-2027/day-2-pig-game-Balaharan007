@@ -162,122 +162,18 @@
         color: #eb4d4d;
       }
 
-      /* Custom dice using CSS */
-      .dice-face {
-        width: 100px;
-        height: 100px;
-        background: white;
-        border-radius: 10px;
-        position: relative;
-        box-shadow: 0px 10px 60px rgba(0, 0, 0, 0.1);
-        display: flex;
-        justify-content: center;
-        align-items: center;
-      }
-
-      .dot {
-        width: 20px;
-        height: 20px;
-        background: #eb4d4d;
-        border-radius: 50%;
+      .dice {
         position: absolute;
-      }
-
-      .dice-2 .dot:first-child {
-        top: 25%;
-        left: 25%;
-      }
-
-      .dice-2 .dot:last-child {
-        bottom: 25%;
-        right: 25%;
-      }
-
-      /* Dice dot positioning for all numbers */
-      .dice-1 .dot {
-        top: 50%;
         left: 50%;
-        transform: translate(-50%, -50%);
+        top: 178px;
+        transform: translateX(-50%);
+        box-shadow: 0px 10px 60px rgba(0, 0, 0, 0.1);
       }
 
-      .dice-3 .dot:nth-child(1) {
-        top: 25%;
-        left: 25%;
+      .dice-img {
+        border-radius: 10px;
+        box-shadow: 0px 10px 60px rgba(0, 0, 0, 0.1);
       }
-      .dice-3 .dot:nth-child(2) {
-        top: 50%;
-        left: 50%;
-        transform: translate(-50%, -50%);
-      }
-      .dice-3 .dot:nth-child(3) {
-        bottom: 25%;
-        right: 25%;
-      }
-
-      .dice-4 .dot:nth-child(1) {
-        top: 25%;
-        left: 25%;
-      }
-      .dice-4 .dot:nth-child(2) {
-        top: 25%;
-        right: 25%;
-      }
-      .dice-4 .dot:nth-child(3) {
-        bottom: 25%;
-        left: 25%;
-      }
-      .dice-4 .dot:nth-child(4) {
-        bottom: 25%;
-        right: 25%;
-      }
-
-      .dice-5 .dot:nth-child(1) {
-        top: 25%;
-        left: 25%;
-      }
-      .dice-5 .dot:nth-child(2) {
-        top: 25%;
-        right: 25%;
-      }
-      .dice-5 .dot:nth-child(3) {
-        top: 50%;
-        left: 50%;
-        transform: translate(-50%, -50%);
-      }
-      .dice-5 .dot:nth-child(4) {
-        bottom: 25%;
-        left: 25%;
-      }
-      .dice-5 .dot:nth-child(5) {
-        bottom: 25%;
-        right: 25%;
-      }
-
-      .dice-6 .dot:nth-child(1) {
-        top: 25%;
-        left: 25%;
-      }
-      .dice-6 .dot:nth-child(2) {
-        top: 25%;
-        right: 25%;
-      }
-      .dice-6 .dot:nth-child(3) {
-        top: 50%;
-        left: 25%;
-      }
-      .dice-6 .dot:nth-child(4) {
-        top: 50%;
-        right: 25%;
-      }
-      .dice-6 .dot:nth-child(5) {
-        bottom: 25%;
-        left: 25%;
-      }
-      .dice-6 .dot:nth-child(6) {
-        bottom: 25%;
-        right: 25%;
-      }
-      
     </style>
   </head>
   <body>
@@ -300,18 +196,27 @@
         </div>
       </div>
 
-      <button class="btn btn-new" style="background-color: #d48c8c; height: 50px; color: white;"><i>🎲</i>New game</button>
+      <button
+        class="btn btn-new"
+        style="background-color: #d48c8c; height: 50px; color: white"
+      >
+        <i>🎲</i>New game
+      </button>
 
       <button class="btn btn-roll"><i>🎯</i>Roll dice</button>
 
       <button class="btn btn-hold"><i>📥</i>Hold</button>
 
       <div class="dice" style="display: none">
-        <div class="dice-face"></div>
+        <img
+          class="dice-img"
+          src="image1.jpg"
+          alt="Dice"
+          style="width: 100px; height: 100px; border-radius: 10px"
+        />
       </div>
     </div>
 
-    <!-- Include JavaScript file -->
     <script src="roll_dice.js"></script>
   </body>
 </html>
