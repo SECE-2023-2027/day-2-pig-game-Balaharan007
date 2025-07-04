@@ -1,9 +1,8 @@
-
-let currentPlayer = 0; 
-let scores = [0, 0]; 
-let currentScore = 0; 
-let isGameActive = true; 
-
+let currentPlayer = 0;
+let player0Score = 0;
+let player1Score = 0;
+let currentScore = 0;
+let isGameActive = true;
 
 const player0Element = document.querySelector(".player-0");
 const player1Element = document.querySelector(".player-1");
@@ -16,9 +15,9 @@ const btnNew = document.querySelector(".btn-new");
 const btnRoll = document.querySelector(".btn-roll");
 const btnHold = document.querySelector(".btn-hold");
 
-
 function initGame() {
-  scores = [0, 0];
+  player0Score = 0;
+  player1Score = 0;
   currentScore = 0;
   currentPlayer = 0;
   isGameActive = true;
@@ -28,9 +27,7 @@ function initGame() {
   current0Element.textContent = "0";
   current1Element.textContent = "0";
 
- 
   diceElement.style.display = "none";
-
   player0Element.classList.remove("winner");
   player1Element.classList.remove("winner");
   player0Element.classList.add("active");
@@ -46,24 +43,47 @@ function rollDice() {
 
 function displayDice(diceValue) {
   diceElement.style.display = "block";
+  const diceImg = diceElement.querySelector(".dice-img");
 
-  const diceFace = diceElement.querySelector(".dice-face");
-  diceFace.innerHTML = "";
-  diceFace.className = "dice-face";
-  
-  for (let i = 0; i < diceValue; i++) {
-    const dot = document.createElement("div");
-    dot.classList.add("dot");
-    diceFace.appendChild(dot);
+  const imagePath = `image ${diceValue}.jpg`;
+  diceImg.src = imagePath;
+  diceImg.alt = `Dice ${diceValue}`;
+  console.log(`Showing dice image: ${imagePath}`);
+
+  diceImg.onerror = function () {
+    console.error(`Failed to load image: ${imagePath}`);
+    const alternatePath = `image${diceValue}.jpg`;
+    console.log(`Trying alternate path: ${alternatePath}`);
+    diceImg.src = alternatePath;
+
+    diceImg.onerror = function () {
+      console.error(`Failed to load alternate image: ${alternatePath}`);
+    };
+  };
+}
+
+function updateCurrentScore() {
+  document.getElementById(`current-${currentPlayer}`).textContent =
+    currentScore;
+}
+
+function getCurrentPlayerScore() {
+  return currentPlayer === 0 ? player0Score : player1Score;
+}
+
+function updatePlayerScore(score) {
+  if (currentPlayer === 0) {
+    player0Score = score;
+    score0Element.textContent = player0Score;
+  } else {
+    player1Score = score;
+    score1Element.textContent = player1Score;
   }
-
-  diceFace.classList.add(`dice-${diceValue}`);
 }
 
 function switchPlayer() {
-
   currentScore = 0;
-  document.getElementById(`current-${currentPlayer}`).textContent = "0";
+  updateCurrentScore();
 
   currentPlayer = currentPlayer === 0 ? 1 : 0;
 
@@ -75,31 +95,23 @@ function handleRoll() {
   if (!isGameActive) return;
 
   const dice = rollDice();
-
   displayDice(dice);
 
   if (dice === 1) {
-    
     switchPlayer();
   } else {
-    // Add dice to current score
     currentScore += dice;
-    document.getElementById(`current-${currentPlayer}`).textContent =
-      currentScore;
+    updateCurrentScore();
   }
 }
-
 
 function handleHold() {
   if (!isGameActive) return;
 
-  scores[currentPlayer] += currentScore;
-  document.getElementById(`score-${currentPlayer}`).textContent =
-    scores[currentPlayer];
+  const newScore = getCurrentPlayerScore() + currentScore;
+  updatePlayerScore(newScore);
 
-
-  if (scores[currentPlayer] >= 100) {
-
+  if (newScore >= 100) {
     isGameActive = false;
     document.querySelector(`.player-${currentPlayer}`).classList.add("winner");
     document.querySelector(
@@ -107,15 +119,24 @@ function handleHold() {
     ).textContent = `Player ${currentPlayer + 1} Wins!`;
     diceElement.style.display = "none";
   } else {
-   
     switchPlayer();
   }
 }
-
 
 btnNew.addEventListener("click", initGame);
 btnRoll.addEventListener("click", handleRoll);
 btnHold.addEventListener("click", handleHold);
 
+document.addEventListener("DOMContentLoaded", function () {
+  initGame();
 
-document.addEventListener("DOMContentLoaded", initGame);
+  console.log("Checking dice images...");
+  const imageCheck = new Image();
+  imageCheck.onload = function () {
+    console.log("Dice images are accessible");
+  };
+  imageCheck.onerror = function () {
+    console.error("Dice images may not be accessible - check file paths");
+  };
+  imageCheck.src = "image 1.jpg";
+});
